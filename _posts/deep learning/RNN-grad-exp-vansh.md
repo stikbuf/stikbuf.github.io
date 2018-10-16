@@ -43,14 +43,25 @@ LSTM的核心单元被称为细胞$\mathbf{c}$，$\mathbf{c}$编码了到当前�
 $$ \mathbf{i}_t=σ(\mathbf{W}_{ix} \mathbf{x}_t+\mathbf{W}_{im} \mathbf{m}_{t-1} )$$
 $$ \mathbf{f}_t=σ(\mathbf{W}_{fx} \mathbf{x}_t+\mathbf{W}_{fm} \mathbf{m}_{t-1})$$
 $$\mathbf{o}_t=σ(\mathbf{W}_{ox} \mathbf{x}_t+\mathbf{W}_{om} \mathbf{m}_{t-1} ) $$   
-$$\mathbf{c}_t=\mathbf{f}_t \odot \mathbf{c}_{t-1} + \mathbf{i}_t\odot⁡ tanh (\mathbf{W}_{cx} \mathbf{x}_t+\mathbf{W}_{cm} \mathbf{m}_{t-1} )$$
+$$\mathbf{g}_t= tanh (\mathbf{W}_{cx} \mathbf{x}_t+\mathbf{W}_{cm} \mathbf{m}_{t-1} )$$
+$$\mathbf{c}_t=\mathbf{f}_t \odot \mathbf{c}_{t-1} + \mathbf{i}_t\odot⁡ \mathbf{g}_t$$
 $$\mathbf{m}_t=\mathbf{o}_t \odot \mathbf{c}_t$$
 $$\mathbf{p}_{t+1}=softmax(\mathbf{m}_t)$$
-其中$σ(⋅)$为sigmoid激活函数，$\odot$表示向量按元素相乘，$\mathbf{W}$为可训练的权重矩阵。从$$\mathbf{c}_t=\mathbf{f}_t \odot \mathbf{c}_{t-1} + \mathbf{i}_t\odot⁡ tanh (\mathbf{W}_{cx} \mathbf{x}_t+\mathbf{W}_{cm} \mathbf{m}_{t-1} )$$中我们注意到，$\mathbf{c}_t$到$\mathbf{c}_{t+1}$之间的更新法则是$\mathbf{c}_t$和$\mathbf{f}_t$的元素按元素相乘并接收一定的输入信息，其中没有连续的矩阵乘法的过程，就基本避免了梯度爆炸和梯度消失问题。这种通过“残差连接”“恒等变换”使得梯度可以快速通过深层神经网络结构的设计在如今的深度学习中已经非常普遍：
+其中$σ(⋅)$为sigmoid激活函数，$\odot$表示向量按元素相乘，$\mathbf{W}$为可训练的权重矩阵。从$$\mathbf{c}_t=\mathbf{f}_t \odot \mathbf{c}_{t-1} + \mathbf{i}_t\odot⁡ \mathbf{g}_t$$中我们注意到，$\mathbf{c}_t$到$\mathbf{c}_{t+1}$之间的更新法则是$\mathbf{c}_t$和$\mathbf{f}_t$的元素按元素相乘并接收一定的输入信息，其中没有连续的矩阵乘法的过程，就基本避免了梯度爆炸和梯度消失问题。这种通过“残差连接”“恒等变换”使得梯度可以快速通过深层神经网络结构的设计在如今的深度学习中已经非常普遍：
 ![残差](https://github.com/stikbuf/stikbuf.github.io/blob/master/images/RNN%E4%B8%8E%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1/%E6%AE%8B%E5%B7%AE%E5%A5%97%E8%B7%AF.jpg?raw=true)
 
+## \*4. 长时间依赖问题（探讨）
+在LSTM网络中，由于
+$$ \mathbf{f}_t=σ(\mathbf{W}_{fx} \mathbf{x}_t+\mathbf{W}_{fm} \mathbf{m}_{t-1})$$  
+。由sigmoid激活函数的表达式$σ(x)=\frac{1}{1+e^{-x} }$可知，$f_t$的每个元素都小于$1$。考察LSTM的$c_t$更新规律
+$$\mathbf{c}_t=\mathbf{f}_t \odot \mathbf{c}_{t-1} + \mathbf{i}_t\odot⁡ \mathbf{g}_t$$
+，在形式上与一阶数字低通滤波器相似。也就是说，LSTM网络在迭代计算$\mathbf{c}_t$的过程中，较长时间以前的$\mathbf{c}$信息会逐渐消失，最近离散时刻的$\mathbf{i}
+_t\odot \mathbf{g}_t$的比例会提高，因此LSTM网络趋向于提取输入序列最近的信息，不具有长时记忆能力。
 
-
+所以，我认为“LSTM解决了长时间依赖问题”这个说法不准确，具有迷惑性。我认为准确的说法是，LSTM(部分)解决了长时间尺度上的梯度爆炸和梯度消失问题。但LSTM网络趋向于提取输入序列最近的信息，不能充分记忆较长时间之前的信息。在Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473)的Figure 3中   
+![长时间](https://github.com/stikbuf/stikbuf.github.io/blob/master/images/RNN%E4%B8%8E%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1/%E9%95%BF%E6%97%B6%E9%97%B4%E8%AE%B0%E5%BF%86.png?raw=true)
+我们可以观察到基于LSTM的解码器（RNNenc不带注意力机制）在解码的过程中，如果不使用attention，LSTM无法捕捉较长序列的全部信息。如果将来时间充裕，我可以设计一个实验，记录LSTM在处理长序列时$\mathbf{f}_t$的输出，将这些输出连乘，看看这个数值和长序列建模分数的相关性。
+最后一节，欢迎拍砖！
 
 
 
