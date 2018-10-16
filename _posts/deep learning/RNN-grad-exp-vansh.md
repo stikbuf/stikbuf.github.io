@@ -58,7 +58,7 @@ $$\mathbf{c}_t=\mathbf{f}_t \odot \mathbf{c}_{t-1} + \mathbf{i}_t\odot⁡ \mathb
 ，在形式上与一阶数字低通滤波器相似。也就是说，LSTM网络在迭代计算$\mathbf{c}_t$的过程中，较长时间以前的$\mathbf{c}$信息会逐渐消失，最近离散时刻的$\mathbf{i}
 _t\odot \mathbf{g}_t$的比例会提高，因此LSTM网络趋向于提取输入序列最近的信息，不具有长时记忆能力。
 
-所以，我认为“LSTM解决了长时间依赖问题”这个说法不准确，具有迷惑性。我认为准确的说法是，LSTM(部分)解决了长时间尺度上的梯度爆炸和梯度消失问题。但LSTM网络趋向于提取输入序列最近的信息，不能充分记忆较长时间之前的信息。在Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473)的Figure 3中   
+所以，我认为“LSTM解决了长时间依赖问题”这个说法不准确，具有迷惑性。我认为准确的说法是，LSTM(部分)解决了长时间尺度上的梯度爆炸和梯度消失问题。但LSTM网络趋向于提取输入序列最近的信息，不能充分记忆较长时间之前的信息。在[Neural Machine Translation by Jointly Learning to Align and Translate](https://arxiv.org/abs/1409.0473)的Figure 3中   
 ![长时间](https://github.com/stikbuf/stikbuf.github.io/blob/master/images/RNN%E4%B8%8E%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1/%E9%95%BF%E6%97%B6%E9%97%B4%E8%AE%B0%E5%BF%86.png?raw=true)
 我们可以观察到基于LSTM的解码器（RNNenc不带注意力机制）在解码的过程中，如果不使用attention，LSTM无法捕捉较长序列的全部信息。如果将来时间充裕，我可以设计一个实验，记录LSTM在处理长序列时$\mathbf{f}_t$的输出，将这些输出连乘，看看这个数值和长序列建模分数的相关性。
 最后一节，欢迎拍砖！
