@@ -1,0 +1,10 @@
+title: Stikbuf's Blog
+theme: minima
+header_pages:
+  - R3S.md
+  - mind.md
+exclude:
+  - AGENTS.md
+  - Gemfile
+  - Gemfile.lock
+  - README.md
