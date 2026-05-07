@@ -2,9 +2,11 @@ title: Stikbuf's Blog
 theme: minima
 header_pages:
   - R3S.md
-  - mind.md
+  - rational-inference-of-brain-in-a-vat.md
 exclude:
   - AGENTS.md
   - Gemfile
   - Gemfile.lock
   - README.md
+  - .local
+  - tools
