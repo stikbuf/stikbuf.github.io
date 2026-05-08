@@ -40,6 +40,8 @@ For converted ChatGPT pages, check that formulas render through MathJax, tables 
 
 The existing history uses short imperative commit messages, for example `Add initial GitHub Pages HTML template`. Continue that style: `Add mind page`, `Fix homepage links`, or `Update Jekyll config`.
 
+Before every commit, run a privacy check. At minimum, inspect `git status --short --ignored`, search tracked content for emails, tokens, keys, local absolute paths, and ChatGPT session fields, and confirm ignored local exports under `.local/` are not staged. Do not commit if sensitive content is found; report the finding and remove or sanitize it first.
+
 Pull requests should describe visible site changes, list build verification, and include screenshots for layout changes. Do not include `_site/`, local logs, or generated cache files.
 
 ## Agent-Specific Instructions
