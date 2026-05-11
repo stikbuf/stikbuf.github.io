@@ -17,6 +17,8 @@ Personal GitHub Pages blog built with Jekyll and the Minima theme.
 │   ├── head.html                       # MathJax and head override
 │   ├── header.html                     # Navigation limited to blog pages
 │   └── footer.html                     # Footer with home link
+├── Dockerfile                          # Docker-based local Jekyll environment
+├── docker-compose.yml                  # Local preview service
 ├── tools/convert/                      # Reusable conversion scripts
 ├── .local/convert/                     # Local-only conversion workspace
 └── _site/                              # Generated site output
@@ -35,6 +37,19 @@ bundle _2.5.22_ exec jekyll serve --livereload
 
 本地站点地址：`http://127.0.0.1:4000/`。  
 The local site is served at `http://127.0.0.1:4000/`.
+
+如果本机没有 Ruby/Bundler，可使用 Docker：  
+If Ruby/Bundler is not installed locally, use Docker:
+
+```powershell
+docker compose build
+docker compose up -d
+docker compose logs -f
+docker compose down
+```
+
+Docker 预览地址同样是 `http://127.0.0.1:4000/`。  
+The Docker preview is also served at `http://127.0.0.1:4000/`.
 
 ## 内容约定 / Content Notes
 

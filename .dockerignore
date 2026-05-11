@@ -1,0 +1,6 @@
+.git
+.local
+.sass-cache
+_site
+.bundle
+vendor
