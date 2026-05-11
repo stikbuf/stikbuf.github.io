@@ -1,6 +1,7 @@
 ---
 layout: page
 title: 经典母题：“缸中之脑”的理性推演
+comments: true
 ---
 
 <p class="chat-note">此博客为我和 ChatGPT 的对话。</p>

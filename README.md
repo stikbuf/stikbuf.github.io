@@ -16,7 +16,9 @@ Personal GitHub Pages blog built with Jekyll and the Minima theme.
 ├── _includes/
 │   ├── head.html                       # MathJax and head override
 │   ├── header.html                     # Navigation limited to blog pages
-│   └── footer.html                     # Footer with home link
+│   ├── footer.html                     # Footer with home link
+│   └── giscus.html                     # Giscus comments embed
+├── _layouts/page.html                  # Page layout with optional comments
 ├── Dockerfile                          # Docker-based local Jekyll environment
 ├── docker-compose.yml                  # Local preview service
 ├── tools/convert/                      # Reusable conversion scripts
@@ -50,6 +52,14 @@ docker compose down
 
 Docker 预览地址同样是 `http://127.0.0.1:4000/`。  
 The Docker preview is also served at `http://127.0.0.1:4000/`.
+
+## 评论系统 / Comments
+
+评论系统使用 Giscus，配置在 `_config.yml` 的 `giscus` 字段中。  
+Comments are powered by Giscus and configured under `giscus` in `_config.yml`.
+
+给页面 front matter 添加 `comments: true` 可开启评论；首页默认不加载评论脚本。  
+Add `comments: true` to a page's front matter to enable comments; the homepage does not load the comments script by default.
 
 ## 内容约定 / Content Notes
 

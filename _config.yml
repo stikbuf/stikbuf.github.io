@@ -1,8 +1,22 @@
 title: Stikbuf's Blog
+url: "https://blog.stikbuf.com"
 theme: minima
 header_pages:
   - R3S.md
   - rational-inference-of-brain-in-a-vat.md
+giscus:
+  repo: "stikbuf/stikbuf.github.io"
+  repo_id: "R_kgDOSW0-dg"
+  category: "Comments"
+  category_id: "DIC_kwDOSW0-ds4C8yr9"
+  mapping: "pathname"
+  strict: "0"
+  reactions_enabled: "1"
+  emit_metadata: "0"
+  input_position: "bottom"
+  theme: "dark"
+  lang: "zh-CN"
+  loading: "lazy"
 exclude:
   - AGENTS.md
   - Gemfile
